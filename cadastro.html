@@ -97,7 +97,7 @@
 
     <div class="container">
         <h1>Cadastro de Novo Usuário</h1>
-        <form method="POST" action="">
+        <form method="POST" action="cadastro.php">
             <div class="form-group">
                 <label for="nome">Nome:</label>
                 <input type="text" id="nome" name="nome" required>
@@ -116,28 +116,28 @@
             </div>
             <div class="form-group">
                 <label for="curso">Curso:</label>
-                <input list="cursos" id="curso" name="curso" required>
-                <datalist id="cursos">
-                    <option value="Engenharia">
-                    <option value="Medicina">
-                    <option value="Direito">
-                    <option value="Ciências da Computação">
-                    <option value="Arquitetura">
-                    <option value="Psicologia">
-                    <option value="Odontologia">
-                    <option value="Enfermagem">
-                    <option value="Biologia">
-                    <option value="Farmácia">
-                    <option value="Fisioterapia">
-                    <option value="Veterinária">
-                    <option value="Educação Física">
-                    <option value="Gestão de TI">
-                    <option value="Publicidade">
-                    <option value="Design Gráfico">
-                    <option value="Marketing">
-                    <option value="Engenharia Civil">
-                    <option value="Engenharia Elétrica">
-                </datalist>
+                <select id="curso" name="curso" required>
+                    <option value="" disabled selected>Selecione um curso</option>
+                    <option value="Engenharia">Engenharia</option>
+                    <option value="Medicina">Medicina</option>
+                    <option value="Direito">Direito</option>
+                    <option value="Ciências da Computação">Ciências da Computação</option>
+                    <option value="Arquitetura">Arquitetura</option>
+                    <option value="Psicologia">Psicologia</option>
+                    <option value="Odontologia">Odontologia</option>
+                    <option value="Enfermagem">Enfermagem</option>
+                    <option value="Biologia">Biologia</option>
+                    <option value="Farmácia">Farmácia</option>
+                    <option value="Fisioterapia">Fisioterapia</option>
+                    <option value="Veterinária">Veterinária</option>
+                    <option value="Educação Física">Educação Física</option>
+                    <option value="Gestão de TI">Gestão de TI</option>
+                    <option value="Publicidade">Publicidade</option>
+                    <option value="Design Gráfico">Design Gráfico</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Engenharia Civil">Engenharia Civil</option>
+                    <option value="Engenharia Elétrica">Engenharia Elétrica</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="cidade">Cidade:</label>

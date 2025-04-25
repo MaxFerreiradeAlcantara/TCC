@@ -1,5 +1,4 @@
 <?php
-session_start();
 include 'conexao.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -7,20 +6,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $matricula = $_POST['matricula'];
     $senha = $_POST['senha'];
 
-    $query = "SELECT id, senha FROM usuarios WHERE nome = ? AND matricula = ?";
-    $stmt = $conn->prepare($query);
+    $sql = "SELECT senha FROM usuarios WHERE nome = ? AND matricula = ?";
+    $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $nome, $matricula);
     $stmt->execute();
     $stmt->store_result();
 
-    if ($stmt->num_rows === 1) {
-        $stmt->bind_result($id_usuario, $senha_hash);
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($senha_hash);
         $stmt->fetch();
 
         if (password_verify($senha, $senha_hash)) {
-            $_SESSION['usuario_id'] = $id_usuario;
-            $_SESSION['nome'] = $nome;
-            header("Location: dashboard.php");
+
+            header("Location: telainicial.html");
             exit;
         } else {
             echo "Senha incorreta.";

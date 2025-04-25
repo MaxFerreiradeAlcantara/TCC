@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Inicial - Formulário</title>
+    <title>Cadastro de Novo Usuário</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
         }
 
         .container {
-            width: 60%;
+            width: 50%;
             margin: 50px auto;
             padding: 30px;
             background-color: #fff;
@@ -25,6 +25,7 @@
 
         h1 {
             color: #FFB6C1;
+            font-size: 2rem;
         }
 
         .form-group {
@@ -37,12 +38,14 @@
             color: #333;
         }
 
-        .form-group input {
+        .form-group input,
+        .form-group select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             font-size: 16px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            margin-top: 5px;
         }
 
         .form-group input[type="submit"] {
@@ -51,7 +54,7 @@
             border: none;
             cursor: pointer;
             font-size: 18px;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .form-group input[type="submit"]:hover {
@@ -68,11 +71,12 @@
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
+            user-select: none;
         }
 
         .dados-enviados {
             margin-top: 30px;
-            background-color: #fff;
+            background-color: #f9f9f9;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -92,7 +96,7 @@
 <body>
 
     <div class="container">
-        <h1>Login de Aluno</h1>
+        <h1>Cadastro de Novo Usuário</h1>
         <form method="POST" action="">
             <div class="form-group">
                 <label for="nome">Nome:</label>
@@ -102,18 +106,59 @@
                 <label for="matricula">Matrícula:</label>
                 <input type="text" id="matricula" name="matricula" required>
             </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="data_nascimento">Data de Nascimento:</label>
+                <input type="date" id="data_nascimento" name="data_nascimento" required>
+            </div>
+            <div class="form-group">
+                <label for="curso">Curso:</label>
+                <input list="cursos" id="curso" name="curso" required>
+                <datalist id="cursos">
+                    <option value="Engenharia">
+                    <option value="Medicina">
+                    <option value="Direito">
+                    <option value="Ciências da Computação">
+                    <option value="Arquitetura">
+                    <option value="Psicologia">
+                    <option value="Odontologia">
+                    <option value="Enfermagem">
+                    <option value="Biologia">
+                    <option value="Farmácia">
+                    <option value="Fisioterapia">
+                    <option value="Veterinária">
+                    <option value="Educação Física">
+                    <option value="Gestão de TI">
+                    <option value="Publicidade">
+                    <option value="Design Gráfico">
+                    <option value="Marketing">
+                    <option value="Engenharia Civil">
+                    <option value="Engenharia Elétrica">
+                </datalist>
+            </div>
+            <div class="form-group">
+                <label for="cidade">Cidade:</label>
+                <select id="cidade" name="cidade" required>
+                    <option value="Morrinhos">Morrinhos</option>
+                    <option value="Goiatuba">Goiatuba</option>
+                    <option value="Itumbiara">Itumbiara</option>
+                </select>
+            </div>
             <div class="form-group password-container">
                 <label for="senha">Senha:</label>
                 <input type="password" id="senha" name="senha" required>
                 <span class="toggle-password" onclick="togglePassword()">👁️</span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Enviar">
-
+                <input type="submit" value="Cadastrar">
             </div>
         </form>
+
         <div style="margin-top: 15px;">
-            <p>Não tem cadastro? <a href="cadastro.html">Cadastre-se aqui</a></p>
+            <p>Já tem cadastro? <a href="index.html">Faça login aqui</a></p>
         </div>
 
     </div>
@@ -124,16 +169,11 @@
 
     <script>
         function togglePassword() {
-            var passwordField = document.getElementById('senha');
-            var passwordIcon = document.querySelector('.toggle-password');
-
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                passwordIcon.textContent = "🙈";
-            } else {
-                passwordField.type = "password";
-                passwordIcon.textContent = "👁️";
-            }
+            const senhaInput = document.getElementById('senha');
+            const toggleIcon = document.querySelector('.toggle-password');
+            const isPasswordVisible = senhaInput.type === 'text';
+            senhaInput.type = isPasswordVisible ? 'password' : 'text';
+            toggleIcon.textContent = isPasswordVisible ? '👁️' : '🙈';
         }
     </script>
 

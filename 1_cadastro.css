@@ -1,0 +1,23 @@
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('img/penis.jpg') no-repeat;
+    background-size: 1538px 729.6px;
+    background-position: center;
+  }
+
+  .cadastro-container {
+    background-color: #6EB680;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  border-radius: 3%;
+  }
+
+  @media (min-width: 768px) {
+    .cadastro-container {
+      padding: 1.5rem;
+    }
+  }

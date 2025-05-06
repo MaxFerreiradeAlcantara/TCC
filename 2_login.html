@@ -22,14 +22,14 @@
       <form id="form">
         <h4 class="mb-3 text-center">Login</h4>
         <div class="mb-3">
-          <input type="text" class="form-control" placeholder="E-mail">
+          <input type="text" class="form-control" name="email" id="email" placeholder="E-mail">
         </div>
         <div class="mb-3">
           <input type="password" class="form-control" placeholder="Senha">
         </div>
         <div id="check">
           <p>
-            Lembre-se de mim <input type="checkbox">
+            Lembre-se de mim <input type="checkbox" id="rememberMe">
           </p>
         </div>
         <div class="d-grid gap-2 mb-3" id="loginADM">
@@ -40,7 +40,6 @@
             <i class="" style="color: black;"></i> Fazer login como motorista
           </a>
         </div>
-
         <button type="submit" class="btn btn-dark w-100">ENTRAR</button>
         <br><br>
         <div class="mb-3 text-center">
@@ -49,11 +48,54 @@
         <p class="small" style="color: black; text-align: end;">
           Não possui uma conta? <a href="1_cadastro.html" style="color: black;">Cadastre-se</a>
         </p>
-
       </form>
-
     </div>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Carrega o e-mail salvo, se existir
+      const savedEmail = localStorage.getItem("rememberedEmail");
+      if (savedEmail) {
+        document.getElementById("email").value = savedEmail;
+        document.getElementById("rememberMe").checked = true;
+      }
+    });
+    
+    document.getElementById("form").addEventListener("submit", function(event) {
+      event.preventDefault();
+    
+      const email = document.getElementById("email").value;
+      const senha = document.querySelector('input[placeholder="Senha"]').value;
+      const rememberMe = document.getElementById("rememberMe").checked;
+    
+      if (rememberMe) {
+        localStorage.setItem("rememberedEmail", email);
+      } else {
+        localStorage.removeItem("rememberedEmail");
+      }
+    
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("senha", senha);
+    
+      fetch("2_login.php", {
+          method: "POST",
+          body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+          alert(data.message);
+          if (data.status === "success") {
+              window.location.href = "3_telainicial.html";
+          }
+      })
+      .catch(() => {
+          alert("Erro ao tentar fazer login.");
+      });
+    });
+    </script>
+    
+    
 
 </body>
 </html>

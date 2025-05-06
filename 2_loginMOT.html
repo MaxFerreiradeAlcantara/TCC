@@ -12,26 +12,22 @@
 </head>
 <body>
   <div class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
-    <div id="login-container" 
-    style="max-width: 500px; border-radius: 3%;">
-      <h4 class="mb-3 text-center">Login motorista</h4>
+    <div id="login-container" style="max-width: 500px; border-radius: 3%;">
+      <h4 class="mb-3 text-center">Login Motorista</h4>
 
-      <form>
+      <form action="2_loginMOT.php" method="post">
         <div class="mb-3">
-          <input type="text" class="form-control" placeholder="Usuario">
+          <input type="text" class="form-control" name="usuario" placeholder="Usuário" required>
         </div>
         <div class="mb-3">
-          <input type="password" class="form-control" placeholder="Senha">
+          <input type="password" class="form-control" name="senha" placeholder="Senha" required>
         </div>
         <button type="submit" class="btn btn-dark w-100">ENTRAR</button>
         <p class="small" style="color: black; text-align: center; font-size: 15px;">
-            Voltar para a tela de <a href="2_login.html" style="color: black; font-size: 15px;">Login</a>
-          </p>
-        
+          Voltar para a tela de <a href="2_login.html" style="color: black; font-size: 15px;">Login</a>
+        </p>
       </form>
-
     </div>
   </div>
-
 </body>
 </html>

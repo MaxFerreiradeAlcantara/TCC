@@ -10,6 +10,7 @@
   <title>Cadastro</title>
 
   <script>
+    //essa porra aqui é pra formatação do CPF, não mecher nessa porra
     function formatarCPF(event) {
       let cpf = event.target.value.replace(/\D/g, "");
       if (cpf.length <= 11) {
@@ -19,7 +20,7 @@
       }
       event.target.value = cpf;
     }
-
+    //essa porra aqui é pra formatação do celular, não mecher nessa porra
     function formatarCelular(event) {
       let celular = event.target.value.replace(/\D/g, "");
       if (celular.length > 0) {
@@ -30,14 +31,14 @@
       }
       event.target.value = celular;
     }
-
+    //isso aqui é para cobrar caracteres especiais (regex) da senha e comparar se a senha e a confirmação são iguais
     function validarSenha() {
       let senha = document.getElementById("senha").value;
       let senhaConfirmacao = document.getElementById("senhaConfirmacao").value;
-      let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
 
       if (!regex.test(senha)) {
-        alert("A senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas e minúsculas, um número e um caractere especial.");
+        alert("A senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, um número e um caractere especial.");
         return false;
       }
 
@@ -46,8 +47,44 @@
         return false;
       }
 
-      return true;
+        return true;
     }
+    //é pra mostrar a senha pq vc é burro
+    function toggleSenha(id, btn) {
+      const campo = document.getElementById(id);
+      const tipo = campo.type === "password" ? "text" : "password";
+      campo.type = tipo;
+      btn.textContent = tipo === "text" ? "🙈" : "👁";
+    }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault(); // impede o envio do formulário
+
+      if (!validarSenha()) return; // verifica senha antes de enviar
+
+      const formData = new FormData(form);
+
+      fetch("1_cadastro.php", {
+        method: "POST",
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "success") {
+            alert(data.message); // exibe a merda do alerta
+            form.reset(); // limpa o formulário apos o cadastro
+          } else {
+            alert("Erro: " + data.message); // alerta de erro, dessa vez não esqueci krl
+          }
+        })
+        .catch(() => {
+          alert("Erro ao enviar os dados. Tente novamente.");
+        });
+    });
+  });
   </script>
 </head>
 
@@ -56,20 +93,34 @@
     <div class="cadastro-container" style="max-width: 600px;" >
       <h4 class="mb-3 text-center p-2">CADASTRO</h4>
 
-      <form class="d-grid gap-2" onsubmit="return validarSenha()">
-        <input type="text" class="form-control" placeholder="Nome completo">
-        <input type="text" class="form-control" placeholder="CPF" id="cpf" maxlength="14" oninput="formatarCPF(event)">
-        <input type="text" class="form-control" placeholder="Celular" id="celular" maxlength="15" oninput="formatarCelular(event)">
-        <input type="text" class="form-control" placeholder="Matrícula">
-        <input type="email" class="form-control" placeholder="Email">
-        <input type="password" class="form-control" id="senha" placeholder="Senha">
-        <input type="password" class="form-control" id="senhaConfirmacao" placeholder="Confirmar senha">
-        
+      <form class="d-grid gap-2" action="1_cadastro.php" method="POST" onsubmit="return validarSenha()">
+        <input type="text" class="form-control" name="nome" placeholder="Nome completo">
+        <input type="text" class="form-control" name="cpf" placeholder="CPF" id="cpf" maxlength="14" oninput="formatarCPF(event)">
+        <input type="text" class="form-control" name="celular" placeholder="Celular" id="celular" maxlength="15" oninput="formatarCelular(event)">
+        <input type="text" class="form-control" name="matricula" placeholder="Matrícula">
+        <input type="email" class="form-control" name="email" placeholder="Email">
+        <div style="position: relative;">
+          <input type="password" class="form-control" name="senha" id="senha" placeholder="Senha" style="padding-right: 30px;">
+          <button type="button" onclick="toggleSenha('senha', this)"
+                  style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);
+                         background: none; border: none; padding: 0; cursor: pointer; font-size: 18px;">
+            👁
+          </button>
+        </div>
+        <div style="position: relative;">
+          <input type="password" class="form-control" id="senhaConfirmacao" placeholder="Confirmar senha" style="padding-right: 30px;">
+          <button type="button" onclick="toggleSenha('senhaConfirmacao', this)"
+                  style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);
+                         background: none; border: none; padding: 0; cursor: pointer; font-size: 18px;">
+            👁
+          </button>
+        </div>
         <button type="submit" class="btn btn-dark w-100 mt-2">CADASTRA-SE</button>
         <p class="small" style="text-align: center; color: #000000; font-size: 15px;">
           Já possui uma conta? <a href="2_login.html" style="color: #000000; font-size: 15px;">Entre</a>
         </p>
       </form>
+      <div class="alert"></div>
     </div>
   </div>
 </body>

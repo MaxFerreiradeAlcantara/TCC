@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="1_TelaModals.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <title>Login</title>
+</head>
+<body>
+  <nav class="container-fluid d-flex align-items-center justify-content-center min-vh-100">
+  <div id="login-container" class="d-flex shadow" style="max-width: 900px; border-radius: 10px; overflow: hidden;">
+
+    <!-- Coluna da Imagem -->
+    <div class="col-md-6 p-0">
+      <img src="img/roxao.jpg" style="width: 100%; height: 100%; object-fit: cover;">
+    </div>
+
+    <!-- Coluna do Formulário -->
+    <div class="col-md-6 p-4">
+      <form id="form">
+        <h4 class="mb-3 text-center">Login</h4>
+        <div class="mb-3">
+          <input type="text" class="form-control" name="email" id="email" placeholder="E-mail">
+        </div>
+        <div class="mb-3">
+          <input type="password" class="form-control" placeholder="Senha">
+        </div>
+        <div id="check">
+          <p>Lembre-se de mim <input type="checkbox" id="rememberMe"></p>
+        </div>
+        <div class="d-grid gap-2 mb-3" id="loginADM">
+          <a href="2_loginADM.html" class="btn btn-outline-dark">Fazer login como administrador</a>
+          <a href="2_loginMOT.html" class="btn btn-outline-dark">Fazer login como motorista</a>
+        </div>
+        <button type="submit" class="btn btn-dark w-100">ENTRAR</button>
+        <br><br>
+        <button type="button" class="btn btn-outline-dark w-100 mt-2" data-bs-toggle="modal" data-bs-target="#modalCadastro">
+          CADASTRAR-SE
+        </button>
+        <div class="mb-3 text-center">
+          <p class="small" style="text-align: end;">Esqueceu sua senha? <a href="4_recuperaçãoSENHA.html">Clique aqui.</a></p>
+        </div>
+        <p class="small" style="text-align: end;">Não possui uma conta? <a href="1_cadastro.html">Cadastre-se</a></p>
+      </form>
+    </div>
+
+  </div>
+</nav>
+
+<!-- Modal de Cadastro -->
+<div class="modal fade" id="modalCadastro" tabindex="-1" aria-labelledby="modalCadastroLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white rounded-4 shadow-lg p-4">
+      <div class="modal-header border-0">
+        <h5 class="modal-title mx-auto" id="modalCadastroLabel">Cadastro</h5>
+        <button type="button" class="btn-close btn-close-white position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formCadastro" class="d-grid gap-2" method="POST">
+          <input type="text" class="form-control" name="nome" placeholder="Nome completo">
+          <input type="text" class="form-control" name="cpf" placeholder="CPF" id="cpf" maxlength="14" oninput="formatarCPF(event)">
+          <input type="text" class="form-control" name="celular" placeholder="Celular" id="celular" maxlength="15" oninput="formatarCelular(event)">
+          <input type="text" class="form-control" name="matricula" placeholder="Matrícula">
+          <input type="email" class="form-control" name="email" placeholder="Email">
+          <div style="position: relative;">
+            <input type="password" class="form-control" name="senha" id="senha" placeholder="Senha" style="padding-right: 30px;">
+            <button type="button" onclick="toggleSenha('senha', this)"
+              style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);
+                     background: none; border: none; padding: 0; cursor: pointer; font-size: 18px;">
+              👁
+            </button>
+          </div>
+          <div style="position: relative;">
+            <input type="password" class="form-control" id="senhaConfirmacao" placeholder="Confirmar senha" style="padding-right: 30px;">
+            <button type="button" onclick="toggleSenha('senhaConfirmacao', this)"
+              style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%);
+                     background: none; border: none; padding: 0; cursor: pointer; font-size: 18px;">
+              👁
+            </button>
+          </div>
+          <button type="submit" class="btn btn-dark w-100 mt-2">CADASTRAR-SE</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+  // Preencher email salvo
+  document.addEventListener("DOMContentLoaded", function () {
+    const savedEmail = localStorage.getItem("rememberedEmail");
+    if (savedEmail) {
+      document.getElementById("email").value = savedEmail;
+      document.getElementById("rememberMe").checked = true;
+    }
+  });
+
+  // Login
+  document.getElementById("form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    const email = document.getElementById("email").value;
+    const senha = document.querySelector('input[placeholder="Senha"]').value;
+    const rememberMe = document.getElementById("rememberMe").checked;
+
+    if (rememberMe) {
+      localStorage.setItem("rememberedEmail", email);
+    } else {
+      localStorage.removeItem("rememberedEmail");
+    }
+
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("senha", senha);
+
+    fetch("2_login.php", {
+      method: "POST",
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+        if (data.status === "success") {
+          window.location.href = "3_telainicial.html";
+        }
+      })
+      .catch(() => {
+        alert("Erro ao tentar fazer login.");
+      });
+  });
+
+  // Cadastro (modal)
+  document.addEventListener("DOMContentLoaded", function () {
+    const formCadastro = document.getElementById("formCadastro");
+
+    formCadastro.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!validarSenha()) return;
+
+      const formData = new FormData(formCadastro);
+
+      fetch("1_cadastro.php", {
+        method: "POST",
+        body: formData
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "success") {
+            alert(data.message);
+            formCadastro.reset();
+          } else {
+            alert("Erro: " + data.message);
+          }
+        })
+        .catch(() => {
+          alert("Erro ao enviar os dados. Tente novamente.");
+        });
+    });
+  });
+
+  // Validação de senha
+  function validarSenha() {
+    let senha = document.getElementById("senha").value;
+    let senhaConfirmacao = document.getElementById("senhaConfirmacao").value;
+    let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+
+    if (!regex.test(senha)) {
+      alert("A senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, um número e um caractere especial.");
+      return false;
+    }
+
+    if (senha !== senhaConfirmacao) {
+      alert("As senhas não coincidem!");
+      return false;
+    }
+
+    return true;
+  }
+
+  // Mostrar/ocultar senha
+  function toggleSenha(id, btn) {
+    const campo = document.getElementById(id);
+    const tipo = campo.type === "password" ? "text" : "password";
+    campo.type = tipo;
+    btn.textContent = tipo === "text" ? "🙈" : "👁";
+  }
+
+  // Formatação CPF
+  function formatarCPF(event) {
+    let cpf = event.target.value.replace(/\D/g, "");
+    if (cpf.length <= 11) {
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2");
+      cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    }
+    event.target.value = cpf;
+  }
+
+  // Formatação celular
+  function formatarCelular(event) {
+    let celular = event.target.value.replace(/\D/g, "");
+    if (celular.length > 0) {
+      celular = celular.replace(/^(\d{2})(\d)/g, "($1) $2");
+    }
+    if (celular.length > 10) {
+      celular = celular.replace(/(\d{5})(\d{4})$/, "$1-$2");
+    }
+    event.target.value = celular;
+  }
+</script>
+
+</body>
+</html>
